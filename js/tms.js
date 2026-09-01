@@ -431,9 +431,187 @@ function bindTmsEvents() {
     });
 }
 
+const COMMUNICATION_KEY = 'alphaway_dispatch_messages';
+
+function getDefaultCarrierMessages() {
+    return [
+        {
+            id: 'Carrier A1',
+            name: 'Rapid Transit Logistics',
+            status: 'Online',
+            load: 'LB-48201',
+            messages: [
+                { sender: 'carrier', text: 'Driver is 20 minutes from pickup.', time: '08:55 AM' },
+                { sender: 'dispatcher', text: 'Perfect. Keep us updated on the arrival window.', time: '08:57 AM' }
+            ]
+        },
+        {
+            id: 'Carrier B7',
+            name: 'Blue Ridge Hauling',
+            status: 'Checking in',
+            load: 'LB-48322',
+            messages: [
+                { sender: 'carrier', text: 'We have the reefer loaded and rolling.', time: '09:12 AM' },
+                { sender: 'dispatcher', text: 'Confirmed. Please send the ETA once on the road.', time: '09:13 AM' }
+            ]
+        },
+        {
+            id: 'Carrier C3',
+            name: 'Summit Fleet Group',
+            status: 'Online',
+            load: 'LB-48190',
+            messages: [
+                { sender: 'carrier', text: 'We need a DOT stop time confirmation before delivery.', time: '09:22 AM' },
+                { sender: 'dispatcher', text: 'Copy. I will confirm with the broker and send it now.', time: '09:24 AM' }
+            ]
+        }
+    ];
+}
+
+function getCarrierMessages() {
+    const stored = localStorage.getItem(COMMUNICATION_KEY);
+    if (!stored) {
+        return getDefaultCarrierMessages();
+    }
+
+    try {
+        const parsed = JSON.parse(stored);
+        return Array.isArray(parsed) && parsed.length ? parsed : getDefaultCarrierMessages();
+    } catch (error) {
+        console.error('Unable to read dispatch messages:', error);
+        return getDefaultCarrierMessages();
+    }
+}
+
+function saveCarrierMessages(messages) {
+    localStorage.setItem(COMMUNICATION_KEY, JSON.stringify(messages));
+}
+
+function renderCarrierList(selectedId = null) {
+    const carrierList = document.getElementById('carrier-list');
+    if (!carrierList) {
+        return;
+    }
+
+    const carriers = getCarrierMessages();
+    const activeCarrierId = selectedId || carriers[0]?.id || null;
+
+    carrierList.innerHTML = carriers.map(carrier => `
+        <button class="carrier-item ${carrier.id === activeCarrierId ? 'active' : ''}" data-carrier-id="${carrier.id}">
+            <strong>${carrier.name}</strong>
+            <span>${carrier.status} • ${carrier.load}</span>
+        </button>
+    `).join('');
+
+    const selectedCarrier = carriers.find(carrier => carrier.id === activeCarrierId) || carriers[0];
+    if (selectedCarrier) {
+        document.getElementById('chat-carrier-name').textContent = selectedCarrier.name;
+        document.getElementById('chat-carrier-status').textContent = selectedCarrier.status;
+        document.getElementById('chat-load-tag').textContent = selectedCarrier.load || 'No load';
+    }
+
+    carrierList.querySelectorAll('.carrier-item').forEach(button => {
+        button.addEventListener('click', () => {
+            renderCarrierList(button.dataset.carrierId);
+            renderMessageThread(button.dataset.carrierId);
+        });
+    });
+}
+
+function renderMessageThread(carrierId) {
+    const chatThread = document.getElementById('chat-thread');
+    if (!chatThread) {
+        return;
+    }
+
+    const carriers = getCarrierMessages();
+    const selectedCarrier = carriers.find(carrier => carrier.id === carrierId) || carriers[0];
+    if (!selectedCarrier) {
+        return;
+    }
+
+    document.getElementById('chat-carrier-name').textContent = selectedCarrier.name;
+    document.getElementById('chat-carrier-status').textContent = selectedCarrier.status;
+    document.getElementById('chat-load-tag').textContent = selectedCarrier.load || 'No load';
+
+    chatThread.innerHTML = (selectedCarrier.messages || []).map(message => `
+        <div class="chat-message ${message.sender === 'dispatcher' ? 'outgoing' : 'incoming'}">
+            <div>${message.text}</div>
+            <small>${message.time}</small>
+        </div>
+    `).join('');
+
+    chatThread.scrollTop = chatThread.scrollHeight;
+}
+
+function addCarrierMessage(carrierId, text, sender = 'dispatcher') {
+    const carriers = getCarrierMessages();
+    const targetCarrier = carriers.find(carrier => carrier.id === carrierId);
+    if (!targetCarrier) {
+        return;
+    }
+
+    const time = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+    targetCarrier.messages.push({ sender, text, time });
+    saveCarrierMessages(carriers);
+    renderMessageThread(carrierId);
+}
+
+function sendCarrierUpdate(event) {
+    event.preventDefault();
+
+    const template = document.getElementById('message-template');
+    const messageInput = document.getElementById('message-input');
+    const carriers = getCarrierMessages();
+    const selectedCarrier = carriers[0];
+
+    if (!selectedCarrier) {
+        return;
+    }
+
+    const text = (template.value || messageInput.value || '').trim();
+    if (!text) {
+        return;
+    }
+
+    addCarrierMessage(selectedCarrier.id, text, 'dispatcher');
+    messageInput.value = '';
+    template.value = '';
+
+    const autoResponses = [
+        'Copy. Driver acknowledged and moving on schedule.',
+        'Received. We will update the ETA after the next checkpoint.',
+        'Thanks. We have the load confirmed and will keep dispatch posted.',
+        'Understood. Driver is en route and will check in shortly.'
+    ];
+
+    const reply = autoResponses[Math.floor(Math.random() * autoResponses.length)];
+    setTimeout(() => {
+        addCarrierMessage(selectedCarrier.id, reply, 'carrier');
+    }, 900);
+}
+
 document.addEventListener('DOMContentLoaded', function () {
     renderDocTabs();
     renderTmsDashboard();
     renderTmsTable();
+    renderCarrierList();
+    renderMessageThread(getCarrierMessages()[0]?.id || null);
     bindTmsEvents();
+
+    const messageForm = document.getElementById('dispatch-message-form');
+    if (messageForm) {
+        messageForm.addEventListener('submit', sendCarrierUpdate);
+    }
+
+    const templateSelect = document.getElementById('message-template');
+    if (templateSelect) {
+        templateSelect.addEventListener('change', function () {
+            const text = this.value;
+            if (text) {
+                const input = document.getElementById('message-input');
+                input.value = text;
+            }
+        });
+    }
 });

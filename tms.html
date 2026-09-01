@@ -139,6 +139,52 @@
             <div class="doc-tabs" id="doc-tabs" aria-label="Required document tabs"></div>
             <div id="doc-panel" class="doc-panel"></div>
         </section>
+
+        <section class="container comm-section">
+            <div class="comm-header">
+                <div>
+                    <p class="eyebrow">Live dispatch</p>
+                    <h2>Carrier communication</h2>
+                </div>
+                <span class="comm-status online">Live</span>
+            </div>
+
+            <div class="comm-layout">
+                <aside class="comm-sidebar">
+                    <div class="comm-panel-header">
+                        <h3>Dispatch contacts</h3>
+                    </div>
+                    <div id="carrier-list" class="carrier-list"></div>
+                </aside>
+
+                <div class="comm-chat-panel">
+                    <div class="chat-header">
+                        <div>
+                            <strong id="chat-carrier-name">Carrier</strong>
+                            <small id="chat-carrier-status">Online</small>
+                        </div>
+                        <span id="chat-load-tag" class="chat-load-tag">No load</span>
+                    </div>
+
+                    <div id="chat-thread" class="chat-thread" aria-live="polite"></div>
+
+                    <form id="dispatch-message-form" class="dispatch-message-form">
+                        <select id="message-template" aria-label="Message template">
+                            <option value="">Quick update</option>
+                            <option value="ETA updated. We are 20 minutes from pickup.">ETA updated</option>
+                            <option value="Driver checked in and en route.">Driver checked in</option>
+                            <option value="Need confirmation on pickup window.">Pickup confirmation</option>
+                            <option value="Load delayed due to traffic; updating ETA.">Delay notice</option>
+                            <option value="Delivery completed and paperwork uploaded.">Delivery completed</option>
+                        </select>
+                        <textarea id="message-input" rows="3" placeholder="Send dispatch update to carrier..."></textarea>
+                        <div class="chat-actions">
+                            <button type="submit" class="primary-button">Send update</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </section>
     </main>
 </body>
 </html>
