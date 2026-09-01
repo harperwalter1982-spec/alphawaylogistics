@@ -1,5 +1,21 @@
 // Loadboard Page Script
 
+// Get loads from localStorage or use defaults
+const STORAGE_KEY = 'alphaway_loads';
+
+function getLoadsForBoard() {
+    const stored = localStorage.getItem(STORAGE_KEY);
+    if (stored) {
+        try {
+            return JSON.parse(stored);
+        } catch (e) {
+            console.error('Error parsing stored loads:', e);
+            return loads; // Fall back to default loads
+        }
+    }
+    return loads; // Use default loads if nothing in storage
+}
+
 function renderLoadCard(load) {
     const statusClass = load.status.toLowerCase();
     return `
@@ -85,7 +101,8 @@ function filterLoads() {
     const equipment = document.getElementById('equipment-filter').value;
     const minRate = parseInt(document.getElementById('rate-filter').value) || 0;
 
-    const filtered = loads.filter(load => {
+    const currentLoads = getLoadsForBoard();
+    const filtered = currentLoads.filter(load => {
         const originMatch = !origin || load.origin.toLowerCase().includes(origin);
         const destMatch = !destination || load.destination.toLowerCase().includes(destination);
         const equipMatch = !equipment || load.equipment === equipment;
@@ -102,7 +119,7 @@ function resetFilters() {
     document.getElementById('destination-search').value = '';
     document.getElementById('equipment-filter').value = '';
     document.getElementById('rate-filter').value = '';
-    renderLoadsList(loads);
+    renderLoadsList(getLoadsForBoard());
 }
 
 function populateStatesDatalist() {
@@ -111,8 +128,8 @@ function populateStatesDatalist() {
 }
 
 document.addEventListener('DOMContentLoaded', function () {
-    // Initial render
-    renderLoadsList(loads);
+    // Initial render - get loads from localStorage or defaults
+    renderLoadsList(getLoadsForBoard());
 
     // Populate states datalist
     populateStatesDatalist();

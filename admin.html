@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Alphaway Logistics - Admin Panel for Load Management">
+    <title>Admin Panel | Alphaway Logistics</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com/">
+    <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin="">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="./css/style.css">
+    <link rel="stylesheet" href="./css/admin.css">
+    <script src="./js/script.js" defer=""></script>
+    <script src="./js/admin.js" defer=""></script>
+</head>
+<body class="admin-page">
+    <header class="site-header">
+        <div class="container nav-wrap">
+            <a class="brand" href="/" aria-label="Alphaway Home">
+                <span class="brand-mark">A</span>
+                <span class="brand-copy">
+                    <span class="brand-name">Alphaway</span>
+                    <small>Logistics LLC</small>
+                </span>
+            </a>
+
+            <nav class="site-nav" aria-label="Main site navigation">
+                <a href="/">Home</a>
+                <a href="./loadboard.html">Load board</a>
+                <a href="./admin.html" class="active">Admin</a>
+            </nav>
+
+            <div class="nav-actions">
+                <a class="primary-button" href="/">Back to Site</a>
+            </div>
+        </div>
+    </header>
+
+    <main class="admin-main">
+        <div class="container">
+            <div class="admin-header">
+                <h1>Load Management Admin</h1>
+                <p>Manage your load board listings</p>
+            </div>
+
+            <div class="admin-grid">
+                <!-- Add Load Form -->
+                <section class="admin-section form-section">
+                    <h2>Add New Load</h2>
+                    <form id="add-load-form" class="load-form">
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="load-id">Load ID</label>
+                                <input type="text" id="load-id" placeholder="e.g., LB-48201" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="load-status">Status</label>
+                                <select id="load-status" required>
+                                    <option value="Hot">Hot</option>
+                                    <option value="New">New</option>
+                                    <option value="Available">Available</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="load-origin">Origin City, State</label>
+                                <input type="text" id="load-origin" placeholder="Denver, CO" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="load-destination">Destination City, State</label>
+                                <input type="text" id="load-destination" placeholder="Phoenix, AZ" required>
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="load-equipment">Equipment</label>
+                                <select id="load-equipment" required>
+                                    <option value="Dry Van">Dry Van</option>
+                                    <option value="Reefer">Reefer</option>
+                                    <option value="Flatbed">Flatbed</option>
+                                    <option value="Tanker">Tanker</option>
+                                    <option value="Specialized">Specialized</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="load-miles">Miles</label>
+                                <input type="number" id="load-miles" placeholder="698" required>
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="load-rate">Rate ($)</label>
+                                <input type="number" id="load-rate" placeholder="2540" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="load-weight">Weight (lbs)</label>
+                                <input type="number" id="load-weight" placeholder="26000" required>
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="load-pickup">Pickup Time</label>
+                                <input type="text" id="load-pickup" placeholder="Today, 2:00 PM" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="load-delivery">Delivery Time</label>
+                                <input type="text" id="load-delivery" placeholder="Tomorrow, 11:30 AM" required>
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="load-broker">Broker Name</label>
+                                <input type="text" id="load-broker" placeholder="Swiftline Logistics" required>
+                            </div>
+                        </div>
+
+                        <div class="form-actions">
+                            <button type="submit" class="primary-button">Add Load</button>
+                            <button type="reset" class="ghost-button">Clear</button>
+                        </div>
+                    </form>
+                </section>
+
+                <!-- Loads List -->
+                <section class="admin-section loads-section">
+                    <div class="section-header">
+                        <h2>Current Loads (<span id="load-count">0</span>)</h2>
+                        <div class="section-actions">
+                            <button id="export-btn" class="ghost-button">Export JSON</button>
+                            <button id="import-btn" class="ghost-button">Import JSON</button>
+                            <button id="clear-all-btn" class="ghost-button danger">Clear All</button>
+                        </div>
+                    </div>
+
+                    <div id="loads-admin-list" class="loads-admin-list">
+                        <!-- Loads will be rendered here -->
+                    </div>
+                </section>
+            </div>
+
+            <input type="file" id="import-file" style="display: none;" accept=".json">
+        </div>
+    </main>
+
+    <footer id="contact" class="site-footer">
+        <div class="container footer-grid">
+            <div>
+                <a class="brand" href="/" aria-label="Alphaway Home">
+                    <span class="brand-mark">A</span>
+                    <span class="brand-copy">
+                        <span class="brand-name">Alphaway</span>
+                        <small>Logistics LLC</small>
+                    </span>
+                </a>
+                <p>Dispatch solutions for resilient freight operations.</p>
+            </div>
+
+            <div>
+                <h3>Quick Links</h3>
+                <ul>
+                    <li><a href="/">Home</a></li>
+                    <li><a href="./loadboard.html">Load board</a></li>
+                    <li><a href="./admin.html">Admin Panel</a></li>
+                </ul>
+            </div>
+
+            <div>
+                <h3>Contact</h3>
+                <ul>
+                    <li><a href="tel:3035025008">303-502-5008</a></li>
+                    <li><a href="mailto:info@alphawaylogistics.com">info@alphawaylogistics.com</a></li>
+                </ul>
+            </div>
+
+            <div>
+                <h3>Version</h3>
+                <ul>
+                    <li>Admin Panel v1.0</li>
+                    <li>Data stored locally</li>
+                    <li><a href="#" onclick="alert('Ready for backend integration')">API Ready</a></li>
+                </ul>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>
