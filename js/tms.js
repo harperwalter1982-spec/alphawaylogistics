@@ -208,6 +208,188 @@ function addDemoLoad() {
     renderTmsTable();
 }
 
+const REQUIRED_DOCUMENTS = {
+    'Carrier Setup': [
+        {
+            name: 'Carrier Agreement',
+            description: 'Standard operating agreement for hauling services and dispatch coordination.',
+            signed: false
+        },
+        {
+            name: 'W-9 Form',
+            description: 'Required for vendor setup and payment processing.',
+            signed: false
+        },
+        {
+            name: 'Authority / MC Setup',
+            description: 'Legal authority and operating approval needed before booking loads.',
+            signed: false
+        }
+    ],
+    'Broker Packet': [
+        {
+            name: 'Broker Carrier Agreement',
+            description: 'Agreement covering booking terms, rate structure, and dispatch responsibilities.',
+            signed: false
+        },
+        {
+            name: 'Rate Confirmation Acknowledgment',
+            description: 'Confirms the accepted rate and pickup/delivery details for each load.',
+            signed: false
+        },
+        {
+            name: 'Load Booking Confirmation',
+            description: 'Final booking approval for dispatch and customer communication.',
+            signed: false
+        }
+    ],
+    'Compliance': [
+        {
+            name: 'Driver Qualification File',
+            description: 'Driver profile, license, and onboarding documentation required to move freight.',
+            signed: false
+        },
+        {
+            name: 'Safety Policy Acknowledgment',
+            description: 'Confirms driver and carrier compliance with safety standards and procedures.',
+            signed: false
+        },
+        {
+            name: 'HOS / Hours of Service Compliance',
+            description: 'Required for legal and operational compliance across all booked loads.',
+            signed: false
+        }
+    ],
+    'Insurance': [
+        {
+            name: 'Certificate of Insurance',
+            description: 'Primary proof of coverage before load acceptance and active dispatch.',
+            signed: false
+        },
+        {
+            name: 'Cargo Coverage Verification',
+            description: 'Confirms cargo protection limits and active insurance coverage.',
+            signed: false
+        },
+        {
+            name: 'Accident Reporting Procedure',
+            description: 'Required incident and after-hours contact process for all dispatch activity.',
+            signed: false
+        }
+    ]
+};
+
+const DOC_STORAGE_KEY = 'alphaway_required_documents';
+
+function getRequiredDocuments() {
+    const saved = localStorage.getItem(DOC_STORAGE_KEY);
+
+    if (!saved) {
+        return REQUIRED_DOCUMENTS;
+    }
+
+    try {
+        const parsed = JSON.parse(saved);
+        const normalized = JSON.parse(JSON.stringify(REQUIRED_DOCUMENTS));
+
+        Object.keys(normalized).forEach(group => {
+            const groupDocs = normalized[group] || [];
+            const savedGroup = parsed[group] || [];
+
+            groupDocs.forEach((doc, index) => {
+                const savedDoc = savedGroup[index];
+                if (savedDoc) {
+                    doc.signed = Boolean(savedDoc.signed);
+                }
+            });
+        });
+
+        return normalized;
+    } catch (error) {
+        console.error('Unable to read required documents:', error);
+        return REQUIRED_DOCUMENTS;
+    }
+}
+
+function persistRequiredDocuments(docGroups) {
+    localStorage.setItem(DOC_STORAGE_KEY, JSON.stringify(docGroups));
+}
+
+function getDocGroupSummary(docGroups) {
+    let signedCount = 0;
+    let totalCount = 0;
+
+    Object.values(docGroups).forEach(group => {
+        group.forEach(doc => {
+            totalCount += 1;
+            if (doc.signed) {
+                signedCount += 1;
+            }
+        });
+    });
+
+    return { signedCount, totalCount };
+}
+
+function renderDocTabs() {
+    const docTabs = document.getElementById('doc-tabs');
+    const docPanel = document.getElementById('doc-panel');
+    const docGroups = getRequiredDocuments();
+    const groupNames = Object.keys(docGroups);
+    const activeTab = localStorage.getItem('alphaway_active_doc_tab') || groupNames[0];
+
+    docTabs.innerHTML = groupNames.map(groupName => `
+        <button class="doc-tab ${groupName === activeTab ? 'active' : ''}" data-doc-group="${groupName}">
+            ${groupName}
+        </button>
+    `).join('');
+
+    const activeGroup = groupNames.includes(activeTab) ? activeTab : groupNames[0];
+    const activeDocs = docGroups[activeGroup];
+    const summary = getDocGroupSummary(docGroups);
+    const progressText = `${summary.signedCount} of ${summary.totalCount} signed`;
+
+    document.getElementById('doc-progress').textContent = progressText;
+
+    docPanel.innerHTML = activeDocs.map(doc => `
+        <article class="doc-card">
+            <div class="doc-card-header">
+                <h3>${doc.name}</h3>
+                <span class="doc-status ${doc.signed ? 'signed' : 'pending'}">
+                    ${doc.signed ? 'Signed' : 'Pending'}
+                </span>
+            </div>
+            <p>${doc.description}</p>
+            <button class="doc-toggle" data-doc-name="${doc.name}" data-doc-group="${activeGroup}">
+                ${doc.signed ? 'Mark unsigned' : 'Mark signed'}
+            </button>
+        </article>
+    `).join('');
+
+    docTabs.querySelectorAll('.doc-tab').forEach(button => {
+        button.addEventListener('click', () => {
+            const tabGroup = button.dataset.docGroup;
+            localStorage.setItem('alphaway_active_doc_tab', tabGroup);
+            renderDocTabs();
+        });
+    });
+
+    docPanel.querySelectorAll('.doc-toggle').forEach(button => {
+        button.addEventListener('click', () => {
+            const groupName = button.dataset.docGroup;
+            const documentName = button.dataset.docName;
+            const docGroupsState = getRequiredDocuments();
+            const targetDoc = docGroupsState[groupName].find(doc => doc.name === documentName);
+
+            if (targetDoc) {
+                targetDoc.signed = !targetDoc.signed;
+                persistRequiredDocuments(docGroupsState);
+                renderDocTabs();
+            }
+        });
+    });
+}
+
 function bindTmsEvents() {
     const searchInput = document.getElementById('tms-search');
     const statusFilter = document.getElementById('tms-status-filter');
@@ -250,6 +432,7 @@ function bindTmsEvents() {
 }
 
 document.addEventListener('DOMContentLoaded', function () {
+    renderDocTabs();
     renderTmsDashboard();
     renderTmsTable();
     bindTmsEvents();
