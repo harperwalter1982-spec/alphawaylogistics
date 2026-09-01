@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Alphaway Logistics load board - Browse available freight and dispatch opportunities.">
+    <title>Load Board | Alphaway Logistics LLC</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com/">
+    <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin="">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="./css/style.css">
+    <link rel="stylesheet" href="./css/loadboard.css">
+    <script src="./js/script.js" defer=""></script>
+    <script src="./js/loadboard.js" defer=""></script>
+</head>
+<body class="loadboard-page">
+    <header class="site-header">
+        <div class="container nav-wrap">
+            <a class="brand" href="/" aria-label="Alphaway Home">
+                <span class="brand-mark">A</span>
+                <span class="brand-copy">
+                    <span class="brand-name">Alphaway</span>
+                    <small>Logistics LLC</small>
+                </span>
+            </a>
+
+            <nav class="site-nav" aria-label="Main site navigation">
+                <a href="/#services">Services</a>
+                <a href="/#plans">Plans</a>
+                <a href="/#about">About</a>
+                <a href="./loadboard.html">Load board</a>
+                <a href="/#contact">Contact</a>
+            </nav>
+
+            <div class="nav-actions">
+                <a class="primary-button" href="/#signup">Sign up</a>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <section class="loadboard-header">
+            <div class="container">
+                <div class="header-content">
+                    <h1>Live Load Board</h1>
+                    <p>Browse available freight opportunities and connect with vetted carriers nationwide.</p>
+                </div>
+
+                <div class="filters-section">
+                    <div class="filter-group">
+                        <label for="origin-search">From</label>
+                        <input type="text" id="origin-search" placeholder="Origin city or state..." list="states-list">
+                    </div>
+                    <div class="filter-group">
+                        <label for="destination-search">To</label>
+                        <input type="text" id="destination-search" placeholder="Destination city or state..." list="states-list">
+                    </div>
+                    <div class="filter-group">
+                        <label for="equipment-filter">Equipment</label>
+                        <select id="equipment-filter">
+                            <option value="">All Equipment</option>
+                            <option value="Dry Van">Dry Van</option>
+                            <option value="Reefer">Reefer</option>
+                            <option value="Flatbed">Flatbed</option>
+                            <option value="Tanker">Tanker</option>
+                        </select>
+                    </div>
+                    <div class="filter-group">
+                        <label for="rate-filter">Min Rate</label>
+                        <input type="number" id="rate-filter" placeholder="Minimum rate...">
+                    </div>
+                    <button class="primary-button" id="filter-btn">Filter</button>
+                    <button class="ghost-button" id="reset-btn">Reset</button>
+                </div>
+            </div>
+        </section>
+
+        <section class="loadboard-content">
+            <div class="container">
+                <div class="results-header">
+                    <h2 id="results-count">Available Loads</h2>
+                </div>
+
+                <div class="loads-list" id="loads-container">
+                    <!-- Loads will be rendered here by JavaScript -->
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer id="contact" class="site-footer">
+        <div class="container footer-grid">
+            <div>
+                <a class="brand" href="/" aria-label="Alphaway Home">
+                    <span class="brand-mark">A</span>
+                    <span class="brand-copy">
+                        <span class="brand-name">Alphaway</span>
+                        <small>Logistics LLC</small>
+                    </span>
+                </a>
+                <p>Dispatch solutions for resilient freight operations.</p>
+            </div>
+
+            <div>
+                <h3>Contact</h3>
+                <ul>
+                    <li><a href="tel:3035025008">303-502-5008</a></li>
+                    <li><a href="mailto:info@alphawaylogistics.com">info@alphawaylogistics.com</a></li>
+                    <li>Denver, Colorado</li>
+                </ul>
+            </div>
+
+            <div>
+                <h3>Business hours</h3>
+                <ul>
+                    <li>Mon–Fri: 8: 00 AM – 6: 00 PM</li>
+                    <li>Emergency dispatch: 24/7</li>
+                    <li><a href="./contact-portal.html">Carrier support portal</a></li>
+                </ul>
+            </div>
+
+            <div>
+                <h3>Explore</h3>
+                <ul>
+                    <li><a href="/">Home</a></li>
+                    <li><a href="./broker-intake.html">Broker intake</a></li>
+                    <li><a href="./carrier-agreement.html">Carrier agreement</a></li>
+                </ul>
+            </div>
+        </div>
+    </footer>
+
+    <datalist id="states-list">
+        <!-- States will be populated by JavaScript -->
+    </datalist>
+</body>
+</html>
