@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Alphaway TMS dashboard for dispatch operations and live load management.">
+    <title>TMS Dashboard | Alphaway Logistics</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com/">
+    <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin="">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="./css/style.css">
+    <link rel="stylesheet" href="./css/tms.css">
+    <script src="./js/script.js" defer=""></script>
+    <script src="./js/tms.js" defer=""></script>
+</head>
+<body class="tms-page">
+    <header class="site-header">
+        <div class="container nav-wrap">
+            <a class="brand" href="/" aria-label="Alphaway Home">
+                <span class="brand-mark">A</span>
+                <span class="brand-copy">
+                    <span class="brand-name">Alphaway</span>
+                    <small>Logistics LLC</small>
+                </span>
+            </a>
+
+            <nav class="site-nav" aria-label="Main site navigation">
+                <a href="./index.html">Home</a>
+                <a href="./loadboard.html">Load board</a>
+                <a href="./tms.html" class="active">TMS</a>
+                <a href="./admin.html">Admin</a>
+            </nav>
+
+            <div class="nav-actions">
+                <a class="primary-button" href="./loadboard.html">Open board</a>
+            </div>
+        </div>
+    </header>
+
+    <main class="tms-main">
+        <section class="tms-hero">
+            <div class="container tms-hero-grid">
+                <div>
+                    <p class="eyebrow">Dispatch operations</p>
+                    <h1>TMS load board</h1>
+                    <p class="tms-subtitle">Track every load, assign resources, monitor status, and keep your network moving.</p>
+                </div>
+                <div class="tms-hero-actions">
+                    <button id="add-demo-load" class="primary-button">Add demo load</button>
+                    <a class="ghost-button" href="./admin.html">Manage loads</a>
+                </div>
+            </div>
+        </section>
+
+        <section class="container tms-overview">
+            <div class="stat-card">
+                <span class="stat-label">Active loads</span>
+                <strong id="stat-active">0</strong>
+            </div>
+            <div class="stat-card">
+                <span class="stat-label">Hot loads</span>
+                <strong id="stat-hot">0</strong>
+            </div>
+            <div class="stat-card">
+                <span class="stat-label">Avg. rate</span>
+                <strong id="stat-rate">$0</strong>
+            </div>
+            <div class="stat-card">
+                <span class="stat-label">Revenue</span>
+                <strong id="stat-revenue">$0</strong>
+            </div>
+        </section>
+
+        <section class="container tms-controls">
+            <div class="filter-group wide">
+                <label for="tms-search">Search</label>
+                <input id="tms-search" type="search" placeholder="Load ID, lane, broker, driver">
+            </div>
+            <div class="filter-group">
+                <label for="tms-status-filter">Status</label>
+                <select id="tms-status-filter">
+                    <option value="all">All statuses</option>
+                    <option value="Hot">Hot</option>
+                    <option value="New">New</option>
+                    <option value="Available">Available</option>
+                    <option value="Assigned">Assigned</option>
+                    <option value="In Transit">In Transit</option>
+                    <option value="Delivered">Delivered</option>
+                </select>
+            </div>
+            <div class="filter-group">
+                <label for="tms-equipment-filter">Equipment</label>
+                <select id="tms-equipment-filter">
+                    <option value="all">All equipment</option>
+                    <option value="Dry Van">Dry Van</option>
+                    <option value="Reefer">Reefer</option>
+                    <option value="Flatbed">Flatbed</option>
+                    <option value="Tanker">Tanker</option>
+                    <option value="Specialized">Specialized</option>
+                </select>
+            </div>
+        </section>
+
+        <section class="container tms-board-wrap">
+            <div class="board-header">
+                <h2>Live dispatch board</h2>
+                <span id="results-count">0 loads</span>
+            </div>
+
+            <div class="table-wrap">
+                <table class="tms-table">
+                    <thead>
+                        <tr>
+                            <th>Load</th>
+                            <th>Origin / Destination</th>
+                            <th>Equipment</th>
+                            <th>Broker</th>
+                            <th>Driver</th>
+                            <th>Pickup</th>
+                            <th>Rate</th>
+                            <th>Status</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tms-table-body"></tbody>
+                </table>
+            </div>
+        </section>
+    </main>
+</body>
+</html>
