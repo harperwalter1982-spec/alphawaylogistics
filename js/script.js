@@ -1,5 +1,7 @@
 // Alphaway Logistics Load Board and UI Script
 
+const AWL_COMPANY_EMAIL = 'operations@alphawaylogistics.com';
+
 const allStates = [
     'Alabama', 'Alaska', 'Arizona', 'Arkansas', 'California', 'Colorado', 'Connecticut', 'Delaware', 'Florida', 'Georgia', 'Hawaii', 'Idaho', 'Illinois', 'Indiana', 'Iowa', 'Kansas', 'Kentucky', 'Louisiana', 'Maine', 'Maryland', 'Massachusetts', 'Michigan', 'Minnesota', 'Mississippi', 'Missouri', 'Montana', 'Nebraska', 'Nevada', 'New Hampshire', 'New Jersey', 'New Mexico', 'New York', 'North Carolina', 'North Dakota', 'Ohio', 'Oklahoma', 'Oregon', 'Pennsylvania', 'Puerto Rico', 'Rhode Island', 'South Carolina', 'South Dakota', 'Tennessee', 'Texas', 'Utah', 'Vermont', 'Virginia', 'Washington', 'Washington DC', 'West Virginia', 'Wisconsin', 'Wyoming'
 ];
@@ -91,30 +93,80 @@ const loads = [
     }
 ];
 
+function saveSubmissionToLocalStore(form, payload) {
+    const key = 'alphaway_form_submissions';
+    const stored = JSON.parse(localStorage.getItem(key) || '[]');
+    stored.push({
+        submittedAt: new Date().toISOString(),
+        formName: form.dataset.subject || 'AWL form',
+        payload
+    });
+    localStorage.setItem(key, JSON.stringify(stored.slice(-50)));
+}
+
+function buildMailtoLink(form) {
+    const email = form.dataset.mailto || AWL_COMPANY_EMAIL;
+    const subject = encodeURIComponent(form.dataset.subject || 'AWL submission');
+    const fields = {};
+
+    Array.from(form.elements).forEach(element => {
+        if (!element.name || element.type === 'submit' || element.type === 'button') {
+            return;
+        }
+        if (element.type === 'file') {
+            fields[element.name] = element.files && element.files.length ? Array.from(element.files).map(file => file.name).join(', ') : 'No file uploaded';
+            return;
+        }
+        if (element.type === 'checkbox') {
+            fields[element.name] = element.checked ? 'Yes' : 'No';
+            return;
+        }
+        fields[element.name] = element.value;
+    });
+
+    const body = encodeURIComponent(Object.entries(fields)
+        .map(([key, value]) => `${key}: ${value}`)
+        .join('\n'));
+
+    return `mailto:${email}?subject=${subject}&body=${body}`;
+}
+
 // Form submission handler
 document.addEventListener('DOMContentLoaded', function () {
-    const signupForm = document.querySelector('.signup-form');
-    if (signupForm) {
-        signupForm.addEventListener('submit', function (e) {
+    document.querySelectorAll('form[data-mailto]').forEach(form => {
+        form.addEventListener('submit', function (e) {
             e.preventDefault();
 
-            const formData = new FormData(signupForm);
-            const data = {
-                name: signupForm.querySelector('input[type="text"]').value,
-                email: signupForm.querySelector('input[type="email"]').value,
-                company: signupForm.querySelectorAll('input[type="text"]')[1].value,
-                plan: signupForm.querySelector('select').value
-            };
+            const payload = {};
+            Array.from(form.elements).forEach(element => {
+                if (!element.name || element.type === 'submit' || element.type === 'button') {
+                    return;
+                }
+                if (element.type === 'file') {
+                    payload[element.name] = element.files && element.files.length ? Array.from(element.files).map(file => file.name) : [];
+                    return;
+                }
+                if (element.type === 'checkbox') {
+                    payload[element.name] = element.checked;
+                    return;
+                }
+                payload[element.name] = element.value;
+            });
 
-            // Log the form data (in a real app, this would send to a server)
-            console.log('Signup Request:', data);
-
-            // Show confirmation message
-            alert(`Thank you for signing up! We'll contact you soon about your ${data.plan} plan.`);
-
-            // Reset form
-            signupForm.reset();
+            saveSubmissionToLocalStore(form, payload);
+            window.location.href = buildMailtoLink(form);
+            const status = document.createElement('p');
+            status.className = 'form-status';
+            status.textContent = 'Submission prepared and routed to AWL operations email. Please confirm the email client opens to send the form.';
+            form.appendChild(status);
+            form.reset();
         });
+    });
+
+    const signupForm = document.querySelector('.signup-form');
+    if (signupForm) {
+        signupForm.setAttribute('data-mailto', AWL_COMPANY_EMAIL);
+        signupForm.setAttribute('data-subject', 'AWL business inquiry');
     }
 
     // Add smooth scroll behavior for anchor links

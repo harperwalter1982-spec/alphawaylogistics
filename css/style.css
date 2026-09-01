@@ -594,6 +594,149 @@ a {
     margin-top: 8px;
 }
 
+.notice-box,
+.agreement-document,
+.onboarding-form {
+    background: var(--panel);
+    border: 1px solid var(--line);
+    border-radius: 16px;
+    padding: 32px;
+    box-shadow: var(--shadow);
+}
+
+.notice-box h2,
+.agreement-document h3,
+.form-section h3 {
+    margin-top: 0;
+}
+
+.notice-box p,
+.agreement-document p,
+.agreement-document li,
+.onboarding-form label,
+.form-note {
+    color: var(--muted);
+    line-height: 1.7;
+}
+
+.legal-page {
+    max-width: 980px;
+}
+
+.agreement-document {
+    margin-top: 24px;
+}
+
+.agreement-document h3 {
+    margin-top: 24px;
+    font-size: 1.1rem;
+    color: var(--text);
+}
+
+.agreement-document ul {
+    padding-left: 20px;
+}
+
+.legal-actions {
+    margin-top: 28px;
+    align-items: center;
+}
+
+.form-grid {
+    display: grid;
+    gap: 20px;
+}
+
+.two-col {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.onboarding-form {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+}
+
+.onboarding-form label {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    font-size: 0.9rem;
+}
+
+.onboarding-form label span {
+    font-size: 0.78rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--text);
+}
+
+.onboarding-form input,
+.onboarding-form select,
+.onboarding-form textarea {
+    background: var(--bg);
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    padding: 12px 16px;
+    color: var(--text);
+    font: inherit;
+}
+
+.onboarding-form textarea {
+    resize: vertical;
+    min-height: 120px;
+}
+
+.file-section {
+    padding-top: 12px;
+    border-top: 1px solid var(--line);
+}
+
+.file-section h3 {
+    margin-bottom: 18px;
+}
+
+.upload-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 20px;
+}
+
+.checkbox-row {
+    flex-direction: row !important;
+    align-items: flex-start;
+    gap: 12px !important;
+}
+
+.checkbox-row input {
+    width: 18px;
+    height: 18px;
+    margin-top: 4px;
+}
+
+.checkbox-row span {
+    color: var(--text);
+    line-height: 1.5;
+}
+
+.form-note {
+    margin: 0;
+    font-size: 0.85rem;
+}
+
+.board-source-note {
+    margin: 8px 0 0;
+    color: var(--muted);
+    font-size: 0.9rem;
+}
+
+.form-status {
+    margin: 0;
+    color: var(--success);
+    font-size: 0.9rem;
+}
+
 /* Footer */
 .site-footer {
     background: var(--bg-2);

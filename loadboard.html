@@ -44,8 +44,8 @@
         <section class="loadboard-header">
             <div class="container">
                 <div class="header-content">
-                    <h1>Live Load Board</h1>
-                    <p>Browse available freight opportunities and connect with vetted carriers nationwide.</p>
+                    <h1>Load Board</h1>
+                    <p>Current board data is a local demo feed and must be connected to an AWL-controlled load source, shared datastore, or API before being used as the live production board.</p>
                 </div>
 
                 <div class="filters-section">
@@ -81,6 +81,7 @@
             <div class="container">
                 <div class="results-header">
                     <h2 id="results-count">Available Loads</h2>
+                    <p class="board-source-note">Demo data is currently stored in browser localStorage. Production integration should pull from the AWL dispatch database or API, not a public repo.</p>
                 </div>
 
                 <div class="loads-list" id="loads-container">

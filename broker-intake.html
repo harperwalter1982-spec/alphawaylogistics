@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Broker intake form for Alphaway Logistics LLC.">
+    <title>Broker Intake | Alphaway Logistics LLC</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com/">
+    <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin="">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="./css/style.css">
+    <script src="./js/script.js" defer=""></script>
+</head>
+<body>
+    <header class="site-header">
+        <div class="container nav-wrap">
+            <a class="brand" href="./index.html" aria-label="Alphaway Home">
+                <span class="brand-mark">A</span>
+                <span class="brand-copy">
+                    <span class="brand-name">Alphaway</span>
+                    <small>Logistics LLC</small>
+                </span>
+            </a>
+
+            <nav class="site-nav" aria-label="Main site navigation">
+                <a href="./index.html#services">Services</a>
+                <a href="./index.html#plans">Plans</a>
+                <a href="./index.html#about">About</a>
+                <a href="./loadboard.html">Load board</a>
+                <a href="./carrier-onboarding.html">Carrier onboarding</a>
+                <a href="./carrier-agreement.html">Carrier agreement</a>
+                <a href="./broker-intake.html">Broker intake</a>
+                <a href="./tms.html">TMS</a>
+            </nav>
+
+            <div class="nav-actions">
+                <a class="primary-button" href="./carrier-onboarding.html">Carrier onboarding</a>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <section class="section-pad">
+            <div class="container">
+                <div class="section-heading">
+                    <p class="eyebrow">Broker intake</p>
+                    <h2>Load and brokerage information</h2>
+                </div>
+
+                <form class="onboarding-form" data-mailto="operations@alphawaylogistics.com" data-subject="AWL broker intake submission">
+                    <div class="form-grid two-col">
+                        <label>
+                            <span>Broker / company name</span>
+                            <input type="text" name="broker_company_name" required>
+                        </label>
+                        <label>
+                            <span>Primary contact name</span>
+                            <input type="text" name="broker_contact_name" required>
+                        </label>
+                        <label>
+                            <span>Contact email</span>
+                            <input type="email" name="broker_contact_email" required>
+                        </label>
+                        <label>
+                            <span>Contact phone</span>
+                            <input type="tel" name="broker_contact_phone">
+                        </label>
+                        <label>
+                            <span>Load reference / PO</span>
+                            <input type="text" name="load_reference">
+                        </label>
+                        <label>
+                            <span>Pickup date</span>
+                            <input type="date" name="pickup_date">
+                        </label>
+                        <label>
+                            <span>Origin</span>
+                            <input type="text" name="origin" required>
+                        </label>
+                        <label>
+                            <span>Destination</span>
+                            <input type="text" name="destination" required>
+                        </label>
+                        <label>
+                            <span>Equipment type</span>
+                            <select name="equipment_type">
+                                <option>Dry Van</option>
+                                <option>Reefer</option>
+                                <option>Flatbed</option>
+                                <option>Power Only</option>
+                                <option>Box Truck</option>
+                            </select>
+                        </label>
+                        <label>
+                            <span>Rate / revenue</span>
+                            <input type="text" name="rate_revenue">
+                        </label>
+                    </div>
+
+                    <div class="file-section">
+                        <h3>Supporting documents</h3>
+                        <div class="upload-grid">
+                            <label>
+                                <span>Rate confirmation / load sheet</span>
+                                <input type="file" name="load_sheet_upload" accept=".pdf,.doc,.docx,.png,.jpg,.jpeg">
+                            </label>
+                            <label>
+                                <span>Broker packet / W-9 (if required)</span>
+                                <input type="file" name="broker_documents_upload" accept=".pdf,.doc,.docx,.png,.jpg,.jpeg">
+                            </label>
+                        </div>
+                    </div>
+
+                    <label>
+                        <span>Load details</span>
+                        <textarea name="load_details" rows="6" placeholder="Pickup windows, delivery requirements, notes, special instructions, detention, accessorials, or lane requirements..."></textarea>
+                    </label>
+
+                    <div class="cta-row legal-actions">
+                        <button class="primary-button" type="submit">Submit broker intake</button>
+                        <a class="ghost-button" href="./index.html">Back to home</a>
+                    </div>
+                    <p class="form-note">Broker load submissions should be routed to AWL-controlled records, not left as a public email-only workflow. Production integrations should send the payload to the AWL secure intake system.</p>
+                </form>
+            </div>
+        </section>
+    </main>
+</body>
+</html>

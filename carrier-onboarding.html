@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Carrier onboarding for Alphaway Logistics LLC. Submit company, MC/DOT, insurance, W-9, equipment and dispatch preferences.">
+    <title>Carrier Onboarding | Alphaway Logistics LLC</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com/">
+    <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin="">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="./css/style.css">
+    <script src="./js/script.js" defer=""></script>
+</head>
+<body>
+    <header class="site-header">
+        <div class="container nav-wrap">
+            <a class="brand" href="./index.html" aria-label="Alphaway Home">
+                <span class="brand-mark">A</span>
+                <span class="brand-copy">
+                    <span class="brand-name">Alphaway</span>
+                    <small>Logistics LLC</small>
+                </span>
+            </a>
+
+            <nav class="site-nav" aria-label="Main site navigation">
+                <a href="./index.html#services">Services</a>
+                <a href="./index.html#plans">Plans</a>
+                <a href="./index.html#about">About</a>
+                <a href="./loadboard.html">Load board</a>
+                <a href="./carrier-onboarding.html">Carrier onboarding</a>
+                <a href="./carrier-agreement.html">Carrier agreement</a>
+                <a href="./broker-intake.html">Broker intake</a>
+                <a href="./tms.html">TMS</a>
+            </nav>
+
+            <div class="nav-actions">
+                <a class="ghost-button" href="./carrier-agreement.html">Review agreement</a>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <section class="section-pad">
+            <div class="container">
+                <div class="section-heading">
+                    <p class="eyebrow">Carrier onboarding</p>
+                    <h2>Company profile and legal onboarding</h2>
+                </div>
+
+                <form class="onboarding-form" data-mailto="operations@alphawaylogistics.com" data-subject="AWL carrier onboarding submission">
+                    <div class="form-grid two-col">
+                        <label>
+                            <span>Legal carrier name</span>
+                            <input type="text" name="legal_carrier_name" required>
+                        </label>
+                        <label>
+                            <span>DBA / operating name</span>
+                            <input type="text" name="dba_name">
+                        </label>
+                        <label>
+                            <span>Primary contact name</span>
+                            <input type="text" name="primary_contact_name" required>
+                        </label>
+                        <label>
+                            <span>Primary contact email</span>
+                            <input type="email" name="primary_contact_email" required>
+                        </label>
+                        <label>
+                            <span>Primary contact phone</span>
+                            <input type="tel" name="primary_contact_phone" required>
+                        </label>
+                        <label>
+                            <span>Company address</span>
+                            <input type="text" name="company_address" required>
+                        </label>
+                        <label>
+                            <span>MC number</span>
+                            <input type="text" name="mc_number">
+                        </label>
+                        <label>
+                            <span>DOT number</span>
+                            <input type="text" name="dot_number">
+                        </label>
+                        <label>
+                            <span>Federal EIN / Tax ID</span>
+                            <input type="text" name="ein">
+                        </label>
+                        <label>
+                            <span>Insurance carrier</span>
+                            <input type="text" name="insurance_carrier">
+                        </label>
+                        <label>
+                            <span>Policy limits</span>
+                            <input type="text" name="policy_limits">
+                        </label>
+                        <label>
+                            <span>COI expiration</span>
+                            <input type="date" name="coi_expiration">
+                        </label>
+                    </div>
+
+                    <div class="file-section">
+                        <h3>Required documents</h3>
+                        <div class="upload-grid">
+                            <label>
+                                <span>W-9 upload</span>
+                                <input type="file" name="w9_upload" accept=".pdf,.png,.jpg,.jpeg">
+                            </label>
+                            <label>
+                                <span>Certificate of insurance</span>
+                                <input type="file" name="coi_upload" accept=".pdf,.png,.jpg,.jpeg">
+                            </label>
+                            <label>
+                                <span>Signed AWL agreement</span>
+                                <input type="file" name="signed_agreement_upload" accept=".pdf,.png,.jpg,.jpeg">
+                            </label>
+                            <label>
+                                <span>Factoring agreement / NOA (if applicable)</span>
+                                <input type="file" name="factoring_noa_upload" accept=".pdf,.png,.jpg,.jpeg">
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="form-grid two-col">
+                        <label>
+                            <span>Equipment type</span>
+                            <select name="equipment_type">
+                                <option>Dry Van</option>
+                                <option>Reefer</option>
+                                <option>Flatbed</option>
+                                <option>Power Only</option>
+                                <option>Box Truck</option>
+                                <option>Other</option>
+                            </select>
+                        </label>
+                        <label>
+                            <span>Available units</span>
+                            <input type="number" name="available_units" min="0" step="1">
+                        </label>
+                        <label>
+                            <span>Preferred lanes</span>
+                            <input type="text" name="preferred_lanes" placeholder="e.g. TX, CO, AZ, SE lanes">
+                        </label>
+                        <label>
+                            <span>Preferred rate target</span>
+                            <input type="text" name="preferred_rate_target">
+                        </label>
+                        <label>
+                            <span>Dispatch preference</span>
+                            <select name="dispatch_preference">
+                                <option>Standard dispatch</option>
+                                <option>Dedicated lane support</option>
+                                <option>Broker communication only</option>
+                                <option>Flexible dispatch support</option>
+                            </select>
+                        </label>
+                        <label>
+                            <span>Current availability</span>
+                            <select name="availability_status">
+                                <option>Available now</option>
+                                <option>Partially available</option>
+                                <option>Not available</option>
+                            </select>
+                        </label>
+                    </div>
+
+                    <label>
+                        <span>Additional notes</span>
+                        <textarea name="additional_notes" rows="5" placeholder="Equipment details, lane notes, driver availability, special dispatch instructions..."></textarea>
+                    </label>
+
+                    <label class="checkbox-row">
+                        <input type="checkbox" name="carrier_agreement_acknowledged" required>
+                        <span>I acknowledge the AWL Carrier Service Agreement and confirm the information provided is accurate.</span>
+                    </label>
+
+                    <div class="cta-row legal-actions">
+                        <button class="primary-button" type="submit">Submit onboarding</button>
+                        <a class="ghost-button" href="./carrier-agreement.html">Review agreement</a>
+                    </div>
+                    <p class="form-note">This form prepares the submission for AWL-controlled email and private storage. Do not place W-9s, COIs, signed agreements, or private carrier records in a public repo.</p>
+                </form>
+            </div>
+        </section>
+    </main>
+</body>
+</html>

@@ -27,8 +27,10 @@
                 <a href="#plans">Plans</a>
                 <a href="#about">About</a>
                 <a href="./loadboard.html">Load board</a>
+                <a href="./carrier-onboarding.html">Carrier onboarding</a>
+                <a href="./carrier-agreement.html">Carrier agreement</a>
+                <a href="./broker-intake.html">Broker intake</a>
                 <a href="./tms.html">TMS</a>
-                <a href="./admin.html">Admin</a>
                 <a href="#contact">Contact</a>
             </nav>
 
@@ -47,8 +49,8 @@
                     <h1>Built to move freight with more control, more visibility, and less chaos.</h1>
                     <p class="hero-subtitle">Alphaway Logistics helps carriers and brokers stay on top of every lane with responsive dispatch, nationwide relationships, and a smarter freight workflow.</p>
                     <div class="cta-row">
-                        <a class="primary-button" href="#signup">Get started</a>
-                        <a class="ghost-button" href="#plans">View plans</a>
+                        <a class="primary-button" href="./carrier-onboarding.html">Carrier onboarding</a>
+                        <a class="ghost-button" href="./broker-intake.html">Broker intake</a>
                     </div>
                     <ul class="hero-metrics">
                         <li><strong>24/7</strong><span>Dispatch support</span></li>
@@ -110,6 +112,17 @@
                         <h3>Carrier partnerships</h3>
                         <p>Connect with vetted trucking partners, broker relationships, and high-value opportunities nationwide.</p>
                     </article>
+                </div>
+            </div>
+        </section>
+
+        <section class="section-pad legal-notice">
+            <div class="container">
+                <div class="notice-box">
+                    <p class="eyebrow">Carrier compensation</p>
+                    <h2>AWL dispatch fee structure</h2>
+                    <p>AWL dispatch fees are service fees for dispatch coordination and lane support. The introductory carrier fee is 8% of gross on loads AWL dispatches. If the relationship continues, the carrier fee is 10% of gross. AWL is not a factoring company or quick-pay provider, and broker/factoring payment timing is separate from AWL dispatch services.</p>
+                    <p>For the full legal language, see the <a href="./carrier-agreement.html">AWL Carrier Service Agreement</a> and the <a href="./carrier-onboarding.html">carrier onboarding packet</a>.</p>
                 </div>
             </div>
         </section>
@@ -192,28 +205,30 @@
                     <p>Tell us a little about your operation and we will reach out to match you with the right plan and dispatch support.</p>
                 </div>
 
-                <form class="signup-form">
+                <form class="signup-form" data-mailto="operations@alphawaylogistics.com" data-subject="AWL business inquiry">
                     <label>
                         <span>Full name</span>
-                        <input type="text" placeholder="Your name">
+                        <input type="text" name="full_name" placeholder="Your name" required>
                     </label>
                     <label>
                         <span>Email</span>
-                        <input type="email" placeholder="you@company.com">
+                        <input type="email" name="email" placeholder="you@company.com" required>
                     </label>
                     <label>
                         <span>Company</span>
-                        <input type="text" placeholder="Company name">
+                        <input type="text" name="company" placeholder="Company name" required>
                     </label>
                     <label>
-                        <span>Plan</span>
-                        <select>
-                            <option>Alpha</option>
-                            <option>Omega</option>
-                            <option>Not sure yet</option>
+                        <span>Need</span>
+                        <select name="need">
+                            <option>Carrier onboarding</option>
+                            <option>Broker intake</option>
+                            <option>Dispatch support</option>
+                            <option>General inquiry</option>
                         </select>
                     </label>
                     <button class="primary-button" type="submit">Request access</button>
+                    <p class="form-note">Production records should be routed to AWL-controlled email and secure storage, not public GitHub repositories.</p>
                 </form>
             </div>
         </section>
@@ -253,7 +268,9 @@
                 <h3>Explore</h3>
                 <ul>
                     <li><a href="./loadboard.html">Load board</a></li>
-                    <li><a href="./admin.html">Admin panel</a></li>
+                    <li><a href="./carrier-onboarding.html">Carrier onboarding</a></li>
+                    <li><a href="./broker-intake.html">Broker intake</a></li>
+                    <li><a href="./carrier-agreement.html">Carrier agreement</a></li>
                 </ul>
             </div>
         </div>
